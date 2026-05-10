@@ -1,10 +1,12 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import type { ClaimedSquare } from "@/app/api/squares/route";
 import { GRID_SIZE, PRICE_CENTS } from "@/lib/constants";
 import { ClaimDialog } from "./ClaimDialog";
 import { SquarePopover } from "./SquarePopover";
+import { GridAxisMarkers } from "./GridAxisMarkers";
+import { GridHoverTooltip } from "./GridHoverTooltip";
 
 type Props = { initialClaimed: ClaimedSquare[] };
 
@@ -24,11 +26,14 @@ export function Grid({ initialClaimed }: Props) {
   );
   const [openPopover, setOpenPopover] = useState<ClaimedSquare | null>(null);
 
+  // The hover tooltip listens on this ref. Cells are descendants, so pointer
+  // events bubble — we don't have to attach handlers per cell.
+  const cellGridRef = useRef<HTMLDivElement | null>(null);
+
   const handleCellClick = useCallback(
     (x: number, y: number) => {
       const claimed = claimedMap.get(key(x, y));
       if (claimed) {
-        // Open the popover for any claimed cell — message/name/link optional.
         setOpenPopover(claimed);
         return;
       }
@@ -51,8 +56,8 @@ export function Grid({ initialClaimed }: Props) {
             type="button"
             aria-label={
               claimed
-                ? `claimed square at ${x}, ${y}`
-                : `empty square at ${x}, ${y}`
+                ? `claimed square at column ${x + 1}, row ${y + 1}`
+                : `empty square at column ${x + 1}, row ${y + 1}`
             }
             onClick={() => handleCellClick(x, y)}
             style={style}
@@ -70,16 +75,27 @@ export function Grid({ initialClaimed }: Props) {
 
   return (
     <>
-      <div
-        className="aspect-square w-full overflow-hidden rounded-2xl ring-1 ring-rose-100/80"
-        style={{
-          display: "grid",
-          gridTemplateColumns: `repeat(${GRID_SIZE}, minmax(0, 1fr))`,
-          gridTemplateRows: `repeat(${GRID_SIZE}, minmax(0, 1fr))`,
-          contain: "layout paint",
-        }}
-      >
-        {cells}
+      {/* Padding leaves room for axis labels (top + left). */}
+      <div className="relative pl-6 pt-4">
+        <GridAxisMarkers />
+
+        <div
+          ref={cellGridRef}
+          className="aspect-square w-full overflow-hidden rounded-2xl ring-1 ring-rose-100/80"
+          style={{
+            display: "grid",
+            gridTemplateColumns: `repeat(${GRID_SIZE}, minmax(0, 1fr))`,
+            gridTemplateRows: `repeat(${GRID_SIZE}, minmax(0, 1fr))`,
+            contain: "layout paint",
+          }}
+        >
+          {cells}
+        </div>
+
+        <GridHoverTooltip
+          claimedMap={claimedMap}
+          containerRef={cellGridRef}
+        />
       </div>
 
       {openClaim && (

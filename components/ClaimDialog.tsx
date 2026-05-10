@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { formatCoord } from "@/lib/coords";
 
 type Props = {
   x: number;
@@ -127,7 +128,7 @@ export function ClaimDialog({ x, y, priceCents, onClose }: Props) {
     <div
       role="dialog"
       aria-modal="true"
-      aria-label={`Claim square ${x}, ${y}`}
+      aria-label={`Claim square at column ${x + 1}, row ${y + 1}`}
       className="fixed inset-0 z-50 flex items-end justify-center overflow-y-auto bg-black/40 p-0 backdrop-blur-sm sm:items-center sm:p-4"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
@@ -142,7 +143,9 @@ export function ClaimDialog({ x, y, priceCents, onClose }: Props) {
             <h2 className="font-serif text-2xl text-zinc-900">
               Claim this square
             </h2>
-            <p className="mt-1 text-xs text-zinc-500">Square {x},{y}</p>
+            <p className="mt-1 text-sm font-medium tabular-nums text-zinc-700">
+              Claiming: {formatCoord(x, y)}
+            </p>
           </div>
           <button
             type="button"

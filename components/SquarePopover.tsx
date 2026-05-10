@@ -2,6 +2,7 @@
 
 import type { ClaimedSquare } from "@/app/api/squares/route";
 import { FEELING_LABELS, isFeelingCategory, safeUrl } from "@/lib/validation";
+import { formatCoord } from "@/lib/coords";
 
 type Props = {
   square: ClaimedSquare;
@@ -18,7 +19,7 @@ export function SquarePopover({ square, onClose }: Props) {
     <div
       role="dialog"
       aria-modal="true"
-      aria-label={`Square ${square.x}, ${square.y}`}
+      aria-label={`Square at column ${square.x + 1}, row ${square.y + 1}`}
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
@@ -37,8 +38,8 @@ export function SquarePopover({ square, onClose }: Props) {
                 {label}
               </div>
             )}
-            <div className="text-xs text-zinc-500">
-              Square {square.x},{square.y}
+            <div className="text-xs tabular-nums text-zinc-500">
+              {formatCoord(square.x, square.y)}
             </div>
           </div>
           <button
