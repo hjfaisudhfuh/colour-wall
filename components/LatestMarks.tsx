@@ -1,5 +1,6 @@
 import type { ClaimedSquare } from "@/app/api/squares/route";
 import { FEELING_LABELS, isFeelingCategory, safeUrl } from "@/lib/validation";
+import { formatCoord } from "@/lib/coords";
 
 type Props = { squares: ClaimedSquare[] };
 
@@ -13,7 +14,7 @@ export function LatestMarks({ squares }: Props) {
           Latest claims
         </h2>
         <p className="mt-2 text-sm text-zinc-600">
-          The newest squares people added to the wall.
+          Most recent claims on the wall.
         </p>
       </div>
 
@@ -27,19 +28,19 @@ export function LatestMarks({ squares }: Props) {
           return (
             <article
               key={`${s.x},${s.y}`}
-              className="rounded-2xl bg-white/75 p-5 ring-1 ring-rose-100 backdrop-blur-sm transition hover:-translate-y-0.5 hover:shadow-md"
+              className="rounded-xl bg-white/80 p-4 ring-1 ring-rose-100/80 backdrop-blur-sm transition hover:-translate-y-0.5 hover:shadow-md"
             >
               <div className="flex items-center gap-2">
                 <span
-                  className="h-3.5 w-3.5 rounded-full ring-1 ring-black/10"
+                  className="h-4 w-4 rounded-sm ring-1 ring-black/10"
                   style={{ backgroundColor: s.color }}
                   aria-hidden
                 />
-                <span className="text-xs font-medium text-zinc-700">
-                  Square {s.x},{s.y}
+                <span className="font-mono text-[10px] uppercase tracking-[0.16em] tabular-nums text-zinc-600">
+                  {formatCoord(s.x, s.y)}
                 </span>
                 {vibe && (
-                  <span className="text-xs text-zinc-400">· {vibe}</span>
+                  <span className="text-[11px] text-zinc-400">· {vibe}</span>
                 )}
               </div>
 

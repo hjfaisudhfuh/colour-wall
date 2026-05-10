@@ -9,6 +9,8 @@ import { GridAxisMarkers } from "./GridAxisMarkers";
 import { GridHoverTooltip } from "./GridHoverTooltip";
 import { GridHighlightOverlay } from "./GridHighlightOverlay";
 import { JumpToSquare } from "./JumpToSquare";
+import { MonoTag } from "./MonoTag";
+import { WallStats } from "./WallStats";
 
 type Props = { initialClaimed: ClaimedSquare[] };
 
@@ -110,7 +112,18 @@ export function Grid({ initialClaimed }: Props) {
     <>
       <JumpToSquare onJump={handleJump} />
 
-      <div className="rounded-3xl bg-white/70 p-2 shadow-[0_30px_80px_-30px_rgba(180,100,140,0.35)] ring-1 ring-rose-100 backdrop-blur-sm sm:p-4">
+      <p className="mb-3 text-center text-xs text-zinc-500">
+        Tap any empty square to claim it.
+      </p>
+
+      <div className="rounded-3xl bg-white/70 p-3 shadow-[0_30px_80px_-30px_rgba(180,100,140,0.35)] ring-1 ring-rose-200/80 backdrop-blur-sm sm:p-5">
+        {/* Mat header: mono label + status row */}
+        <div className="mb-3 flex flex-col items-center gap-2 sm:mb-4">
+          <MonoTag>The First Wall</MonoTag>
+          <WallStats claimedCount={initialClaimed.length} />
+        </div>
+        <div className="mb-3 h-px bg-rose-200/60 sm:mb-4" />
+
         {/* Padding leaves room for axis labels (top + left). */}
         <div className="relative pl-6 pt-4">
           <GridAxisMarkers />

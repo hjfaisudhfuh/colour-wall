@@ -11,9 +11,12 @@ body {
   height: 100%;
 }
 
-/* Soft warm emotional gradient — rose → peach → lavender on a blush base. */
+/* Warm gradient + subtle dot-grid texture. The dot grid (top layer) ties the
+   page to the pixel-wall theme without being noisy. ~4.5% opacity, 24px
+   spacing — barely visible on first glance, distinct on inspection. */
 body {
   background:
+    radial-gradient(rgba(0, 0, 0, 0.045) 1px, transparent 1px) 0 0 / 24px 24px,
     radial-gradient(60vw 60vw at 0% 0%, #ffd9e0 0%, transparent 60%),
     radial-gradient(60vw 60vw at 100% 0%, #ffe6cc 0%, transparent 60%),
     radial-gradient(80vw 80vw at 50% 100%, #ece1ff 0%, transparent 60%),

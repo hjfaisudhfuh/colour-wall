@@ -8,11 +8,8 @@ import { WhyOneDollar } from "@/components/WhyOneDollar";
 import { TikTokHook } from "@/components/TikTokHook";
 import { Footer } from "@/components/Footer";
 import type { ClaimedSquare } from "@/app/api/squares/route";
-import { GRID_SIZE } from "@/lib/constants";
 
 export const dynamic = "force-dynamic";
-
-const TOTAL_SQUARES = GRID_SIZE * GRID_SIZE;
 
 async function loadClaimedSquares(): Promise<ClaimedSquare[]> {
   try {
@@ -44,22 +41,9 @@ export default async function HomePage() {
 
   return (
     <main className="mx-auto flex max-w-5xl flex-col px-4">
-      <Hero claimedCount={claimed.length} totalCount={TOTAL_SQUARES} />
+      <Hero />
 
       <section id="wall" className="scroll-mt-8 px-0 py-4 sm:py-8">
-        <div className="mb-4 text-center">
-          <h2 className="font-serif text-2xl text-zinc-900 sm:text-3xl">
-            The wall so far
-          </h2>
-          <p className="mt-1 text-sm text-zinc-600">
-            Tap an empty square to claim it. Want to make something bigger?
-            Claim neighbouring squares one by one.
-          </p>
-          <p className="mt-1 text-xs text-zinc-400">
-            {TOTAL_SQUARES.toLocaleString()} spaces on the first wall.
-          </p>
-        </div>
-
         <Grid initialClaimed={claimed} />
       </section>
 
