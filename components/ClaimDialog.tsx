@@ -270,8 +270,7 @@ export function ClaimDialog({ x, y, priceCents, onClose }: Props) {
         </button>
 
         <p className="mt-3 text-center text-xs text-zinc-500">
-          Your square joins the wall after payment. Want to make pixel art?
-          Claim neighbouring squares one by one.
+          Secure checkout by Stripe. Your square appears after payment.
         </p>
 
         <button

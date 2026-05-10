@@ -39,11 +39,14 @@ export default async function SuccessPage({
         </div>
       )}
 
+      <p className="mt-6 text-sm text-zinc-700">
+        Screenshot your square and post it on TikTok.
+      </p>
+
       <SuccessActions baseUrl={baseUrl} />
 
       <p className="mt-6 text-xs text-zinc-500">
-        Want to make something bigger? Come back and claim a neighbouring
-        square.
+        Tell a friend to claim a square next to yours.
       </p>
     </main>
   );

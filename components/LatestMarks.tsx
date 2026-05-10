@@ -5,7 +5,15 @@ import { formatCoord } from "@/lib/coords";
 type Props = { squares: ClaimedSquare[] };
 
 export function LatestMarks({ squares }: Props) {
-  if (squares.length === 0) return null;
+  if (squares.length === 0) {
+    return (
+      <section className="mx-auto my-16 max-w-3xl px-4 text-center">
+        <p className="font-serif text-xl text-zinc-700 sm:text-2xl">
+          Be one of the first people on the wall.
+        </p>
+      </section>
+    );
+  }
 
   return (
     <section className="mx-auto my-16 max-w-5xl px-4">

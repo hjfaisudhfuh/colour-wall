@@ -112,10 +112,6 @@ export function Grid({ initialClaimed }: Props) {
     <>
       <JumpToSquare onJump={handleJump} />
 
-      <p className="mb-3 text-center text-xs text-zinc-500">
-        Tap any empty square to claim it.
-      </p>
-
       <div className="rounded-3xl bg-white/70 p-3 shadow-[0_30px_80px_-30px_rgba(180,100,140,0.35)] ring-1 ring-rose-200/80 backdrop-blur-sm sm:p-5">
         {/* Mat header: mono label + status row */}
         <div className="mb-3 flex flex-col items-center gap-2 sm:mb-4">

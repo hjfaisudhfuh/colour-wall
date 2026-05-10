@@ -1,42 +1,31 @@
+// Compact 4-step strip. Sits above the wall as quick orientation for first-
+// time visitors. Wraps to multiple lines on narrow screens via flex-wrap.
+
 const STEPS = [
-  {
-    n: "1",
-    title: "Pick a square",
-    body: "Tap any empty cell on the wall.",
-  },
-  {
-    n: "2",
-    title: "Choose a colour, leave your mark",
-    body: "A name, a message, a link, a logo, an inside joke, or a tiny ad.",
-  },
-  {
-    n: "3",
-    title: "Pay $1",
-    body: "Your square is yours forever. Want more? Claim neighbouring squares.",
-  },
+  { n: "1", label: "Pick a square" },
+  { n: "2", label: "Choose a colour" },
+  { n: "3", label: "Pay $1" },
+  { n: "4", label: "On the wall" },
 ];
 
 export function HowItWorks() {
   return (
-    <section className="mx-auto my-16 max-w-5xl px-4">
-      <h2 className="mb-8 text-center font-serif text-3xl text-zinc-900 sm:text-4xl">
-        How it works
-      </h2>
-      <div className="grid gap-4 sm:grid-cols-3">
-        {STEPS.map((s) => (
-          <div
-            key={s.n}
-            className="rounded-2xl bg-white/70 p-6 ring-1 ring-rose-100 backdrop-blur-sm"
-          >
-            <div className="font-serif text-3xl text-rose-500">{s.n}</div>
-            <h3 className="mt-2 font-medium text-zinc-900">{s.title}</h3>
-            <p className="mt-1 text-sm text-zinc-600">{s.body}</p>
-          </div>
+    <div className="mx-auto mb-4 max-w-2xl">
+      <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 font-mono text-[10px] uppercase tracking-[0.16em] text-zinc-500">
+        {STEPS.map((step, i) => (
+          <span key={step.n} className="flex items-center gap-3">
+            <span>
+              <span className="font-semibold text-zinc-700">{step.n}</span>{" "}
+              {step.label}
+            </span>
+            {i < STEPS.length - 1 && (
+              <span aria-hidden className="text-zinc-300">
+                →
+              </span>
+            )}
+          </span>
         ))}
       </div>
-      <p className="mt-6 text-center text-sm text-zinc-500">
-        No account. Just a colour, a square, and your mark.
-      </p>
-    </section>
+    </div>
   );
 }

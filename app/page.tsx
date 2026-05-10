@@ -44,11 +44,15 @@ export default async function HomePage() {
       <Hero />
 
       <section id="wall" className="scroll-mt-8 px-0 py-4 sm:py-8">
+        <p className="mx-auto mb-4 max-w-2xl text-center text-sm text-zinc-700">
+          Claim any empty square for $1. Pick a colour, add a message or
+          link, and become part of the first wall.
+        </p>
+        <HowItWorks />
         <Grid initialClaimed={claimed} />
       </section>
 
       <TikTokHook />
-      <HowItWorks />
       <MakeYourMark />
       <LatestMarks squares={recent} />
       <WhyOneDollar />
