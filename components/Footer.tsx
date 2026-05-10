@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 // Placeholder contact email — replace with your real address before going live.
-const CONTACT_EMAIL = "hello@example.com";
+const CONTACT_EMAIL = "05austinwong@gmail.com";
 
 export function Footer() {
   return (

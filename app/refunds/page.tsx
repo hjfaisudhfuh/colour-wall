@@ -35,10 +35,10 @@ export default function RefundsPage() {
         <p>
           To request a refund, email{" "}
           <a
-            href="mailto:hello@example.com"
+            href="mailto:05austinwong@gmail.com"
             className="font-mono text-rose-600 hover:underline"
           >
-            hello@example.com
+            05austinwong@gmail.com
           </a>{" "}
           with your Stripe receipt and a brief description.
         </p>

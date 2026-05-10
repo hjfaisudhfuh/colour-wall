@@ -37,10 +37,10 @@ export default function PrivacyPage() {
         <p>
           Questions? Email{" "}
           <a
-            href="mailto:hello@example.com"
+            href="mailto:05austinwong@gmail.com"
             className="font-mono text-rose-600 hover:underline"
           >
-            hello@example.com
+            05austinwong@gmail.com
           </a>
           .
         </p>
