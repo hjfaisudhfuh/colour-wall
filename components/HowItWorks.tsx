@@ -6,8 +6,8 @@ const STEPS = [
   },
   {
     n: "2",
-    title: "Choose a colour, add a message",
-    body: "Or just a colour. Or your initials. Or a link to your thing.",
+    title: "Choose a colour, leave your mark",
+    body: "A name, a message, a link, a logo, an inside joke, or a tiny ad.",
   },
   {
     n: "3",

@@ -3,7 +3,7 @@ import { Grid } from "@/components/Grid";
 import { Hero } from "@/components/Hero";
 import { HowItWorks } from "@/components/HowItWorks";
 import { LatestMarks } from "@/components/LatestMarks";
-import { MakeSomethingBigger } from "@/components/MakeSomethingBigger";
+import { MakeYourMark } from "@/components/MakeYourMark";
 import { WhyOneDollar } from "@/components/WhyOneDollar";
 import { TikTokHook } from "@/components/TikTokHook";
 import { Footer } from "@/components/Footer";
@@ -55,6 +55,9 @@ export default async function HomePage() {
             Tap an empty square to claim it. Want to make something bigger?
             Claim neighbouring squares one by one.
           </p>
+          <p className="mt-1 text-xs text-zinc-400">
+            {TOTAL_SQUARES.toLocaleString()} spaces on the first wall.
+          </p>
         </div>
 
         <Grid initialClaimed={claimed} />
@@ -62,7 +65,7 @@ export default async function HomePage() {
 
       <TikTokHook />
       <HowItWorks />
-      <MakeSomethingBigger />
+      <MakeYourMark />
       <LatestMarks squares={recent} />
       <WhyOneDollar />
       <Footer />

@@ -16,9 +16,9 @@ export function Hero({ claimedCount, totalCount }: Props) {
       </h1>
 
       <p className="mx-auto mt-6 max-w-xl text-base text-zinc-700 sm:text-lg">
-        Pick a square, choose a colour, and leave your mark on a public
-        canvas. Add your name, a message, or a link — or claim nearby squares
-        to create something bigger.
+        A public wall anyone can add to. Pick a colour and leave a name,
+        message, link, logo, joke, or tiny ad. Claim nearby squares to build
+        pixel art.
       </p>
 
       <div className="mt-8 flex flex-col items-center gap-3">
