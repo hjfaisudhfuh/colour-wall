@@ -57,9 +57,7 @@ export default async function HomePage() {
           </p>
         </div>
 
-        <div className="rounded-3xl bg-white/70 p-2 shadow-[0_30px_80px_-30px_rgba(180,100,140,0.35)] ring-1 ring-rose-100 backdrop-blur-sm sm:p-4">
-          <Grid initialClaimed={claimed} />
-        </div>
+        <Grid initialClaimed={claimed} />
       </section>
 
       <TikTokHook />
