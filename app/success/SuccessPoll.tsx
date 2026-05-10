@@ -37,18 +37,19 @@ export function SuccessPoll({ x, y }: Props) {
 
   if (confirmed) {
     return (
-      <p className="font-medium text-green-700">
-        Square ({x}, {y}) is now claimed.
+      <p className="text-sm text-rose-700">
+        Square {x},{y} is on the wall.
       </p>
     );
   }
 
   return (
     <p className="text-sm text-zinc-500">
-      Waiting for confirmation…{" "}
+      Confirming your square…
       {tick > 5 && (
-        <span className="block">
-          Still waiting. The webhook will arrive shortly; you can also refresh.
+        <span className="mt-1 block text-xs">
+          Still confirming. This usually takes a few seconds — feel free to
+          refresh.
         </span>
       )}
     </p>

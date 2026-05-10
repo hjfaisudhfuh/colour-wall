@@ -1,16 +1,24 @@
 import { getServiceClient } from "@/lib/supabase/server";
 import { Grid } from "@/components/Grid";
+import { Hero } from "@/components/Hero";
+import { HowItWorks } from "@/components/HowItWorks";
+import { LatestMarks } from "@/components/LatestMarks";
+import { WhyOneDollar } from "@/components/WhyOneDollar";
+import { TikTokHook } from "@/components/TikTokHook";
+import { Footer } from "@/components/Footer";
 import type { ClaimedSquare } from "@/app/api/squares/route";
-import { PRICE_CENTS } from "@/lib/constants";
+import { GRID_SIZE } from "@/lib/constants";
 
 export const dynamic = "force-dynamic";
+
+const TOTAL_SQUARES = GRID_SIZE * GRID_SIZE;
 
 async function loadClaimedSquares(): Promise<ClaimedSquare[]> {
   try {
     const supabase = getServiceClient();
     const { data, error } = await supabase
       .from("squares")
-      .select("x,y,color,name,link")
+      .select("x,y,color,name,link,feeling_category,message,claimed_at")
       .eq("status", "claimed");
     if (error) {
       console.error("loadClaimedSquares error:", error);
@@ -26,27 +34,38 @@ async function loadClaimedSquares(): Promise<ClaimedSquare[]> {
 
 export default async function HomePage() {
   const claimed = await loadClaimedSquares();
-  const dollars = (PRICE_CENTS / 100).toFixed(2);
+
+  // Most-recent-first slice for the social-proof rail.
+  const recent = [...claimed]
+    .filter((c) => c.claimed_at != null)
+    .sort((a, b) => (b.claimed_at! < a.claimed_at! ? -1 : 1))
+    .slice(0, 12);
 
   return (
-    <main className="mx-auto flex max-w-5xl flex-col gap-6 px-4 py-10">
-      <header className="flex flex-col gap-2">
-        <h1 className="text-3xl font-bold tracking-tight">Dollar Grid</h1>
-        <p className="text-zinc-600">
-          10,000 squares. ${dollars} each. Click an empty square to claim it.
-          Add an optional name and https:// link. Once paid, it&apos;s yours
-          forever.
-        </p>
-        <p className="text-xs text-zinc-500">
-          {claimed.length.toLocaleString()} of 10,000 claimed.
-        </p>
-      </header>
+    <main className="mx-auto flex max-w-5xl flex-col px-4">
+      <Hero claimedCount={claimed.length} totalCount={TOTAL_SQUARES} />
 
-      <Grid initialClaimed={claimed} />
+      <section id="wall" className="scroll-mt-8 px-0 py-4 sm:py-8">
+        <div className="mb-4 text-center">
+          <h2 className="font-serif text-2xl text-zinc-900 sm:text-3xl">
+            The wall so far
+          </h2>
+          <p className="mt-1 text-sm text-zinc-600">
+            Tap an empty square to claim it. Want to make something bigger?
+            Claim neighbouring squares one by one.
+          </p>
+        </div>
 
-      <footer className="mt-8 text-xs text-zinc-500">
-        Powered by Stripe + Supabase. No accounts, no sign-ups.
-      </footer>
+        <div className="rounded-3xl bg-white/70 p-2 shadow-[0_30px_80px_-30px_rgba(180,100,140,0.35)] ring-1 ring-rose-100 backdrop-blur-sm sm:p-4">
+          <Grid initialClaimed={claimed} />
+        </div>
+      </section>
+
+      <TikTokHook />
+      <HowItWorks />
+      <LatestMarks squares={recent} />
+      <WhyOneDollar />
+      <Footer />
     </main>
   );
 }

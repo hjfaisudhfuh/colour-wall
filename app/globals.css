@@ -10,3 +10,21 @@ html,
 body {
   height: 100%;
 }
+
+/* Soft warm emotional gradient — rose → peach → lavender on a blush base. */
+body {
+  background:
+    radial-gradient(60vw 60vw at 0% 0%, #ffd9e0 0%, transparent 60%),
+    radial-gradient(60vw 60vw at 100% 0%, #ffe6cc 0%, transparent 60%),
+    radial-gradient(80vw 80vw at 50% 100%, #ece1ff 0%, transparent 60%),
+    #fff7f4;
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+/* Smoother focus rings on emotional UI. */
+*:focus-visible {
+  outline: 2px solid rgba(244, 114, 182, 0.6);
+  outline-offset: 2px;
+  border-radius: 4px;
+}

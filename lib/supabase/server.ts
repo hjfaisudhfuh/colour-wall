@@ -30,6 +30,8 @@ export type SquareRow = {
   color: string;
   name: string | null;
   link: string | null;
+  feeling_category: string | null;
+  message: string | null;
   status: "pending" | "claimed";
   stripe_session_id: string;
   price_cents: number;

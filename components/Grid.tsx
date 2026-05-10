@@ -28,7 +28,8 @@ export function Grid({ initialClaimed }: Props) {
     (x: number, y: number) => {
       const claimed = claimedMap.get(key(x, y));
       if (claimed) {
-        if (claimed.name || claimed.link) setOpenPopover(claimed);
+        // Open the popover for any claimed cell — message/name/link optional.
+        setOpenPopover(claimed);
         return;
       }
       setOpenClaim({ x, y });
@@ -57,8 +58,8 @@ export function Grid({ initialClaimed }: Props) {
             style={style}
             className={
               claimed
-                ? "h-full w-full cursor-pointer transition hover:opacity-80"
-                : "h-full w-full cursor-pointer bg-white hover:bg-zinc-200"
+                ? "h-full w-full cursor-pointer transition-[filter] duration-150 hover:brightness-110"
+                : "h-full w-full cursor-pointer bg-white/60 transition-colors duration-150 hover:bg-rose-100"
             }
           />,
         );
@@ -70,7 +71,7 @@ export function Grid({ initialClaimed }: Props) {
   return (
     <>
       <div
-        className="aspect-square w-full overflow-hidden rounded-md border border-zinc-200 shadow-sm"
+        className="aspect-square w-full overflow-hidden rounded-2xl ring-1 ring-rose-100/80"
         style={{
           display: "grid",
           gridTemplateColumns: `repeat(${GRID_SIZE}, minmax(0, 1fr))`,

@@ -1,6 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import {
+  FEELING_CATEGORIES,
+  FEELING_LABELS,
+  type FeelingCategory,
+} from "@/lib/validation";
 
 type Props = {
   x: number;
@@ -10,6 +15,26 @@ type Props = {
 };
 
 const HEX_COLOR = /^#[0-9a-fA-F]{6}$/;
+
+const PLACEHOLDERS = [
+  "Just a colour. Just because.",
+  "Blue because I miss someone I can't text anymore.",
+  "First square of a bigger picture.",
+  "My initials. A tiny corner of the internet.",
+];
+
+const PRESET_COLORS = [
+  "#f9a8d4", // pink
+  "#fb7185", // rose
+  "#f97316", // orange
+  "#facc15", // yellow
+  "#84cc16", // lime
+  "#22d3ee", // cyan
+  "#3b82f6", // blue
+  "#8b5cf6", // violet
+  "#0f172a", // ink
+  "#ffffff", // white
+];
 
 function isValidLink(s: string): boolean {
   if (s === "") return true;
@@ -22,20 +47,41 @@ function isValidLink(s: string): boolean {
 }
 
 export function ClaimDialog({ x, y, priceCents, onClose }: Props) {
-  const [color, setColor] = useState("#3b82f6");
+  const [color, setColor] = useState<string>("#f9a8d4");
+  const [feeling, setFeeling] = useState<FeelingCategory | "">("");
+  const [message, setMessage] = useState("");
   const [name, setName] = useState("");
   const [link, setLink] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const placeholder = useMemo(
+    () => PLACEHOLDERS[Math.floor(Math.random() * PLACEHOLDERS.length)],
+    [],
+  );
+
   const dollars = (priceCents / 100).toFixed(2);
+  const messageRemaining = 100 - message.length;
+
+  // Lock background scroll while modal is open.
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, []);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
 
     if (!HEX_COLOR.test(color)) {
-      setError("Pick a valid color.");
+      setError("Pick a valid colour.");
+      return;
+    }
+    if (message.length > 100) {
+      setError("Message must be 100 characters or fewer.");
       return;
     }
     if (name.length > 50) {
@@ -56,7 +102,15 @@ export function ClaimDialog({ x, y, priceCents, onClose }: Props) {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ x, y, color, name, link }),
+        body: JSON.stringify({
+          x,
+          y,
+          color,
+          feeling_category: feeling || undefined,
+          message,
+          name,
+          link,
+        }),
       });
       const data = (await res.json().catch(() => ({}))) as {
         url?: string;
@@ -79,89 +133,181 @@ export function ClaimDialog({ x, y, priceCents, onClose }: Props) {
     <div
       role="dialog"
       aria-modal="true"
-      aria-label={`Claim square ${x}, ${y}`}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
+      aria-label={`Leave a colour at square ${x}, ${y}`}
+      className="fixed inset-0 z-50 flex items-end justify-center overflow-y-auto bg-black/40 p-0 backdrop-blur-sm sm:items-center sm:p-4"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
     >
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-md rounded-lg bg-white p-6 shadow-xl"
+        className="w-full max-w-md rounded-t-3xl bg-white p-6 shadow-2xl ring-1 ring-black/5 sm:rounded-3xl"
       >
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-semibold">
-            Claim square ({x}, {y})
-          </h2>
+        <div className="mb-1 flex items-start justify-between">
+          <div>
+            <h2 className="font-serif text-2xl text-zinc-900">
+              Claim this square
+            </h2>
+            <p className="mt-1 text-xs text-zinc-500">Square {x},{y}</p>
+          </div>
           <button
             type="button"
             onClick={onClose}
-            className="text-zinc-500 hover:text-zinc-900"
+            className="text-zinc-400 hover:text-zinc-900"
             aria-label="close"
           >
             ✕
           </button>
         </div>
 
-        <label className="mb-3 flex items-center gap-3">
-          <span className="w-20 text-sm text-zinc-700">Color</span>
-          <input
-            type="color"
-            value={color}
-            onChange={(e) => setColor(e.target.value)}
-            className="h-10 w-16 cursor-pointer rounded border border-zinc-300"
-            aria-label="Color"
-          />
-          <code className="text-xs text-zinc-500">{color}</code>
-        </label>
+        {/* Colour */}
+        <div className="mt-5">
+          <label className="mb-2 block text-sm font-medium text-zinc-800">
+            Colour
+          </label>
+          <div className="flex flex-wrap items-center gap-2">
+            {PRESET_COLORS.map((c) => (
+              <button
+                key={c}
+                type="button"
+                onClick={() => setColor(c)}
+                aria-label={`pick colour ${c}`}
+                className={`h-8 w-8 rounded-full ring-1 ring-black/10 transition ${
+                  color.toLowerCase() === c.toLowerCase()
+                    ? "scale-110 ring-2 ring-rose-500"
+                    : "hover:scale-105"
+                }`}
+                style={{ backgroundColor: c }}
+              />
+            ))}
+            <label className="ml-1 inline-flex items-center gap-2 rounded-full border border-zinc-200 px-2 py-1 text-xs text-zinc-600">
+              <input
+                type="color"
+                value={color}
+                onChange={(e) => setColor(e.target.value)}
+                className="h-5 w-5 cursor-pointer rounded-full border-none bg-transparent p-0"
+                aria-label="custom colour"
+              />
+              custom
+            </label>
+          </div>
+        </div>
 
-        <label className="mb-3 flex flex-col gap-1">
-          <span className="text-sm text-zinc-700">Name (optional)</span>
+        {/* Optional vibe / category — purely descriptive metadata. */}
+        <div className="mt-5">
+          <label
+            htmlFor="feeling"
+            className="mb-2 block text-sm font-medium text-zinc-800"
+          >
+            Vibe <span className="text-zinc-400">(optional)</span>
+          </label>
+          <select
+            id="feeling"
+            value={feeling}
+            onChange={(e) => setFeeling(e.target.value as FeelingCategory | "")}
+            className="w-full rounded-xl border border-zinc-200 bg-white px-3 py-2.5 text-sm focus:border-rose-300 focus:outline-none"
+          >
+            <option value="">Skip — or pick a vibe</option>
+            {FEELING_CATEGORIES.map((c) => (
+              <option key={c} value={c}>
+                {FEELING_LABELS[c]}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Message */}
+        <div className="mt-5">
+          <label
+            htmlFor="message"
+            className="mb-2 flex items-center justify-between text-sm font-medium text-zinc-800"
+          >
+            <span>
+              Message <span className="font-normal text-zinc-400">(optional)</span>
+            </span>
+            <span className="text-xs font-normal text-zinc-400">
+              {messageRemaining} left
+            </span>
+          </label>
+          <textarea
+            id="message"
+            value={message}
+            maxLength={100}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder={placeholder}
+            rows={3}
+            className="w-full resize-none rounded-xl border border-zinc-200 px-3 py-2.5 text-sm focus:border-rose-300 focus:outline-none"
+          />
+        </div>
+
+        {/* Optional name */}
+        <div className="mt-4">
+          <label
+            htmlFor="name"
+            className="mb-2 block text-sm font-medium text-zinc-800"
+          >
+            Display name <span className="text-zinc-400">(optional)</span>
+          </label>
           <input
+            id="name"
             type="text"
             value={name}
             maxLength={50}
             onChange={(e) => setName(e.target.value)}
-            placeholder="e.g. yourname"
-            className="rounded border border-zinc-300 px-3 py-2 text-sm focus:border-zinc-500 focus:outline-none"
+            placeholder="anonymous"
+            className="w-full rounded-xl border border-zinc-200 px-3 py-2.5 text-sm focus:border-rose-300 focus:outline-none"
           />
-        </label>
+        </div>
 
-        <label className="mb-4 flex flex-col gap-1">
-          <span className="text-sm text-zinc-700">Link (optional, https://)</span>
+        {/* Optional link */}
+        <div className="mt-4">
+          <label
+            htmlFor="link"
+            className="mb-2 block text-sm font-medium text-zinc-800"
+          >
+            Link <span className="text-zinc-400">(optional, https://)</span>
+          </label>
           <input
+            id="link"
             type="url"
             value={link}
             maxLength={200}
             onChange={(e) => setLink(e.target.value)}
-            placeholder="https://..."
-            className="rounded border border-zinc-300 px-3 py-2 text-sm focus:border-zinc-500 focus:outline-none"
+            placeholder="https://"
+            className="w-full rounded-xl border border-zinc-200 px-3 py-2.5 text-sm focus:border-rose-300 focus:outline-none"
           />
-        </label>
+        </div>
 
         {error && (
-          <p className="mb-3 text-sm text-red-600" role="alert">
+          <p
+            className="mt-4 rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700"
+            role="alert"
+          >
             {error}
           </p>
         )}
 
-        <div className="flex items-center justify-end gap-3">
-          <button
-            type="button"
-            onClick={onClose}
-            className="rounded px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-100"
-            disabled={submitting}
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            disabled={submitting}
-            className="rounded bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 disabled:opacity-60"
-          >
-            {submitting ? "Redirecting…" : `Pay $${dollars}`}
-          </button>
-        </div>
+        <button
+          type="submit"
+          disabled={submitting}
+          className="mt-6 w-full rounded-full bg-zinc-900 px-5 py-3.5 text-sm font-medium text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-zinc-800 disabled:translate-y-0 disabled:opacity-60"
+        >
+          {submitting ? "Redirecting…" : `Claim this square — $${dollars}`}
+        </button>
+
+        <p className="mt-3 text-center text-xs text-zinc-500">
+          Your square joins the wall after payment. No account needed. Want
+          more? Claim neighbouring squares one by one to make pixel art.
+        </p>
+
+        <button
+          type="button"
+          onClick={onClose}
+          className="mt-2 w-full rounded-full px-3 py-2 text-xs text-zinc-500 hover:text-zinc-800"
+          disabled={submitting}
+        >
+          Cancel
+        </button>
       </form>
     </div>
   );

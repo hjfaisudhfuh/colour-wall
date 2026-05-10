@@ -31,9 +31,11 @@ export async function POST(req: NextRequest) {
       { status: 400 },
     );
   }
-  const { x, y, color, name, link } = parsed.data;
+  const { x, y, color, name, link, feeling_category, message } = parsed.data;
   const cleanName = name && name.length > 0 ? name : null;
   const cleanLink = link && link.length > 0 ? link : null;
+  const cleanMessage = message && message.length > 0 ? message : null;
+  const cleanFeeling = feeling_category ?? null;
 
   const supabase = getServiceClient();
   const placeholderId = `placeholder_${randomUUID()}`;
@@ -47,6 +49,8 @@ export async function POST(req: NextRequest) {
       p_color: color,
       p_name: cleanName,
       p_link: cleanLink,
+      p_feeling_category: cleanFeeling,
+      p_message: cleanMessage,
       p_session_id: placeholderId,
       p_price_cents: PRICE_CENTS,
       p_minutes: RESERVATION_MINUTES,
@@ -77,7 +81,7 @@ export async function POST(req: NextRequest) {
             currency: "usd",
             unit_amount: PRICE_CENTS,
             product_data: {
-              name: `Dollar Grid square (${x}, ${y})`,
+              name: `The Colour Wall — square (${x}, ${y})`,
             },
           },
           quantity: 1,

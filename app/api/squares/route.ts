@@ -10,13 +10,16 @@ export type ClaimedSquare = {
   color: string;
   name: string | null;
   link: string | null;
+  feeling_category: string | null;
+  message: string | null;
+  claimed_at: string | null;
 };
 
 export async function GET() {
   const supabase = getServiceClient();
   const { data, error } = await supabase
     .from("squares")
-    .select("x,y,color,name,link")
+    .select("x,y,color,name,link,feeling_category,message,claimed_at")
     .eq("status", "claimed");
 
   if (error) {

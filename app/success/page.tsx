@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { SuccessPoll } from "./SuccessPoll";
+import { SuccessActions } from "./SuccessActions";
 
 export const dynamic = "force-dynamic";
 
@@ -20,23 +20,31 @@ export default async function SuccessPage({
   const params = await searchParams;
   const x = parseCoord(params.x);
   const y = parseCoord(params.y);
+  const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL ?? "").replace(/\/$/, "");
 
   return (
-    <main className="mx-auto flex max-w-md flex-col gap-4 px-4 py-16 text-center">
-      <h1 className="text-2xl font-semibold">Thanks — payment received</h1>
-      <p className="text-zinc-600">
-        Your square is being confirmed. This usually takes a few seconds while
-        Stripe notifies our servers.
+    <main className="mx-auto flex max-w-md flex-col px-4 py-20 text-center">
+      <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-gradient-to-br from-rose-300 via-orange-200 to-violet-300 shadow-lg ring-4 ring-white" />
+
+      <h1 className="font-serif text-4xl leading-tight text-zinc-900 sm:text-5xl">
+        Your colour is on the wall.
+      </h1>
+      <p className="mt-4 text-base text-zinc-700">
+        You left your mark on the canvas.
       </p>
 
-      {x !== null && y !== null && <SuccessPoll x={x} y={y} />}
+      {x !== null && y !== null && (
+        <div className="mt-6">
+          <SuccessPoll x={x} y={y} />
+        </div>
+      )}
 
-      <Link
-        href="/"
-        className="mt-4 inline-block rounded bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800"
-      >
-        Back to the grid
-      </Link>
+      <SuccessActions baseUrl={baseUrl} />
+
+      <p className="mt-6 text-xs text-zinc-500">
+        Want to make something bigger? Come back and claim a neighbouring
+        square.
+      </p>
     </main>
   );
 }
