@@ -1,11 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import {
-  FEELING_CATEGORIES,
-  FEELING_LABELS,
-  type FeelingCategory,
-} from "@/lib/validation";
 
 type Props = {
   x: number;
@@ -17,10 +12,11 @@ type Props = {
 const HEX_COLOR = /^#[0-9a-fA-F]{6}$/;
 
 const PLACEHOLDERS = [
-  "Just a colour. Just because.",
-  "Blue because I miss someone I can't text anymore.",
+  "Austin was here.",
   "First square of a bigger picture.",
-  "My initials. A tiny corner of the internet.",
+  "Making a tiny heart here.",
+  "My corner of the internet.",
+  "Claiming this before it fills up.",
 ];
 
 const PRESET_COLORS = [
@@ -48,7 +44,6 @@ function isValidLink(s: string): boolean {
 
 export function ClaimDialog({ x, y, priceCents, onClose }: Props) {
   const [color, setColor] = useState<string>("#f9a8d4");
-  const [feeling, setFeeling] = useState<FeelingCategory | "">("");
   const [message, setMessage] = useState("");
   const [name, setName] = useState("");
   const [link, setLink] = useState("");
@@ -106,7 +101,6 @@ export function ClaimDialog({ x, y, priceCents, onClose }: Props) {
           x,
           y,
           color,
-          feeling_category: feeling || undefined,
           message,
           name,
           link,
@@ -133,7 +127,7 @@ export function ClaimDialog({ x, y, priceCents, onClose }: Props) {
     <div
       role="dialog"
       aria-modal="true"
-      aria-label={`Leave a colour at square ${x}, ${y}`}
+      aria-label={`Claim square ${x}, ${y}`}
       className="fixed inset-0 z-50 flex items-end justify-center overflow-y-auto bg-black/40 p-0 backdrop-blur-sm sm:items-center sm:p-4"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
@@ -191,29 +185,6 @@ export function ClaimDialog({ x, y, priceCents, onClose }: Props) {
               custom
             </label>
           </div>
-        </div>
-
-        {/* Optional vibe / category — purely descriptive metadata. */}
-        <div className="mt-5">
-          <label
-            htmlFor="feeling"
-            className="mb-2 block text-sm font-medium text-zinc-800"
-          >
-            Vibe <span className="text-zinc-400">(optional)</span>
-          </label>
-          <select
-            id="feeling"
-            value={feeling}
-            onChange={(e) => setFeeling(e.target.value as FeelingCategory | "")}
-            className="w-full rounded-xl border border-zinc-200 bg-white px-3 py-2.5 text-sm focus:border-rose-300 focus:outline-none"
-          >
-            <option value="">Skip — or pick a vibe</option>
-            {FEELING_CATEGORIES.map((c) => (
-              <option key={c} value={c}>
-                {FEELING_LABELS[c]}
-              </option>
-            ))}
-          </select>
         </div>
 
         {/* Message */}
@@ -296,8 +267,8 @@ export function ClaimDialog({ x, y, priceCents, onClose }: Props) {
         </button>
 
         <p className="mt-3 text-center text-xs text-zinc-500">
-          Your square joins the wall after payment. No account needed. Want
-          more? Claim neighbouring squares one by one to make pixel art.
+          Your square joins the wall after payment. Want to make pixel art?
+          Claim neighbouring squares one by one.
         </p>
 
         <button

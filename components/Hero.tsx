@@ -11,13 +11,14 @@ export function Hero({ claimedCount, totalCount }: Props) {
       </p>
 
       <h1 className="font-serif text-5xl leading-[1.05] tracking-tight text-zinc-900 sm:text-7xl">
-        Leave your <span className="italic text-rose-600">colour</span> on the
-        internet.
+        Claim a tiny piece of the{" "}
+        <span className="italic text-rose-600">internet</span>.
       </h1>
 
       <p className="mx-auto mt-6 max-w-xl text-base text-zinc-700 sm:text-lg">
-        Claim a tiny square on a public canvas. Pick a colour, add a message
-        or link, or build something bigger one square at a time.
+        Pick a square, choose a colour, and leave your mark on a public
+        canvas. Add your name, a message, or a link — or claim nearby squares
+        to create something bigger.
       </p>
 
       <div className="mt-8 flex flex-col items-center gap-3">
@@ -28,7 +29,7 @@ export function Hero({ claimedCount, totalCount }: Props) {
           Pick your square
         </a>
         <p className="text-xs text-zinc-500">
-          $1 a square · No account · Yours forever
+          $1 per square · No account · Yours forever
         </p>
         <p className="text-xs text-zinc-400">
           {claimedCount.toLocaleString()} of{" "}

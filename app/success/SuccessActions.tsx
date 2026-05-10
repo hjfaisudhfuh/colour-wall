@@ -15,14 +15,14 @@ export function SuccessActions({ baseUrl }: Props) {
     }
   }, [resolvedUrl]);
 
-  const shareText = `I left my mark on The Colour Wall → ${resolvedUrl || ""}`.trim();
+  const shareText = `I claimed a square on The Colour Wall. ${resolvedUrl || ""}`.trim();
 
   async function handleShare() {
     if (typeof navigator !== "undefined" && navigator.share) {
       try {
         await navigator.share({
           title: "The Colour Wall",
-          text: "I left my mark on The Colour Wall.",
+          text: "I claimed a square on The Colour Wall.",
           url: resolvedUrl || undefined,
         });
         return;

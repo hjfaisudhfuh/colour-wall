@@ -10,16 +10,16 @@ export function LatestMarks({ squares }: Props) {
     <section className="mx-auto my-16 max-w-5xl px-4">
       <div className="mb-6 text-center">
         <h2 className="font-serif text-3xl text-zinc-900 sm:text-4xl">
-          Latest marks
+          Latest claims
         </h2>
         <p className="mt-2 text-sm text-zinc-600">
-          The newest squares on the wall.
+          The newest squares people added to the wall.
         </p>
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {squares.map((s) => {
-          const label = isFeelingCategory(s.feeling_category)
+          const vibe = isFeelingCategory(s.feeling_category)
             ? FEELING_LABELS[s.feeling_category]
             : null;
           const href = safeUrl(s.link);
@@ -35,9 +35,12 @@ export function LatestMarks({ squares }: Props) {
                   style={{ backgroundColor: s.color }}
                   aria-hidden
                 />
-                <span className="text-[11px] uppercase tracking-[0.16em] text-rose-700/80">
-                  {label ?? `Square ${s.x},${s.y}`}
+                <span className="text-xs font-medium text-zinc-700">
+                  Square {s.x},{s.y}
                 </span>
+                {vibe && (
+                  <span className="text-xs text-zinc-400">· {vibe}</span>
+                )}
               </div>
 
               {s.message && (
@@ -46,21 +49,21 @@ export function LatestMarks({ squares }: Props) {
                 </p>
               )}
 
-              <div className="mt-3 flex items-center justify-between text-xs text-zinc-500">
-                <span>
-                  {s.name ? `— ${s.name}` : `Square ${s.x},${s.y}`}
-                </span>
-                {href && (
-                  <a
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer nofollow"
-                    className="text-rose-600 underline-offset-2 hover:underline"
-                  >
-                    link
-                  </a>
-                )}
-              </div>
+              {(s.name || href) && (
+                <div className="mt-3 flex items-center justify-between text-xs text-zinc-500">
+                  <span>{s.name ? `— ${s.name}` : ""}</span>
+                  {href && (
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer nofollow"
+                      className="text-rose-600 underline-offset-2 hover:underline"
+                    >
+                      link
+                    </a>
+                  )}
+                </div>
+              )}
             </article>
           );
         })}

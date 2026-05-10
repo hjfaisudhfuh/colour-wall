@@ -6,8 +6,7 @@ export function WhyOneDollar() {
       </h2>
       <p className="mt-4 text-base leading-relaxed text-zinc-700">
         $1 keeps the wall intentional, prevents spam, and makes each square
-        feel chosen. You can claim one square or build something bigger over
-        time.
+        feel chosen. Claim one square, or build something bigger over time.
       </p>
     </section>
   );

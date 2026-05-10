@@ -27,10 +27,10 @@ export default async function SuccessPage({
       <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-gradient-to-br from-rose-300 via-orange-200 to-violet-300 shadow-lg ring-4 ring-white" />
 
       <h1 className="font-serif text-4xl leading-tight text-zinc-900 sm:text-5xl">
-        Your colour is on the wall.
+        Your square is on the wall.
       </h1>
       <p className="mt-4 text-base text-zinc-700">
-        You left your mark on the canvas.
+        You claimed a tiny piece of the internet.
       </p>
 
       {x !== null && y !== null && (

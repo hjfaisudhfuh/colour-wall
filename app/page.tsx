@@ -3,6 +3,7 @@ import { Grid } from "@/components/Grid";
 import { Hero } from "@/components/Hero";
 import { HowItWorks } from "@/components/HowItWorks";
 import { LatestMarks } from "@/components/LatestMarks";
+import { MakeSomethingBigger } from "@/components/MakeSomethingBigger";
 import { WhyOneDollar } from "@/components/WhyOneDollar";
 import { TikTokHook } from "@/components/TikTokHook";
 import { Footer } from "@/components/Footer";
@@ -63,6 +64,7 @@ export default async function HomePage() {
 
       <TikTokHook />
       <HowItWorks />
+      <MakeSomethingBigger />
       <LatestMarks squares={recent} />
       <WhyOneDollar />
       <Footer />
