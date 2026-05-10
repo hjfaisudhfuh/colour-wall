@@ -48,7 +48,7 @@ A 100×100 public grid where anyone can claim a square for $1. Choose a color, o
 - `app/api/squares/route.ts` — `GET` claimed cells (public).
 - `app/api/checkout/route.ts` — `POST` reserves a cell (DB upsert with `pending_until`) and creates a Stripe Checkout Session.
 - `app/api/stripe/webhook/route.ts` — `POST` Stripe-only. Verifies signature, marks `pending` → `claimed`.
-- `components/Grid.tsx` + `Square.tsx` + `ClaimDialog.tsx` + `SquarePopover.tsx` — UI.
+- `components/Grid.tsx` + `ClaimDialog.tsx` + `SquarePopover.tsx` — UI.
 
 ## Invariants
 

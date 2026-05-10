@@ -38,12 +38,6 @@ export async function POST(req: NextRequest) {
   const supabase = getServiceClient();
   const placeholderId = `placeholder_${randomUUID()}`;
 
-  console.log("[checkout] reserving square", {
-    x,
-    y,
-    placeholder_session_id: placeholderId,
-  });
-
   // 1. Reserve atomically. Returns the row, or null if blocked.
   const { data: reserved, error: reserveErr } = await supabase.rpc(
     "reserve_square",
@@ -64,7 +58,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "internal error" }, { status: 500 });
   }
   if (!reserved) {
-    console.warn("[checkout] reservation blocked", { x, y });
     return NextResponse.json(
       { error: "square is already taken or pending" },
       { status: 409 },
@@ -117,13 +110,6 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  console.log("[checkout] stripe session created", {
-    x,
-    y,
-    placeholder_session_id: placeholderId,
-    stripe_session_id: session.id,
-  });
-
   // 3. Replace placeholder with the real Stripe session id.
   // .select() is required: without it Supabase reports success even when zero
   // rows match, which would let us redirect to Checkout while the DB still
@@ -137,14 +123,6 @@ export async function POST(req: NextRequest) {
     .select("x,y,stripe_session_id,status");
 
   const updatedCount = updated?.length ?? 0;
-  console.log("[checkout] supabase update result", {
-    x,
-    y,
-    placeholder_session_id: placeholderId,
-    stripe_session_id: session.id,
-    rows_updated: updatedCount,
-    error: updateErr?.message ?? null,
-  });
 
   if (updateErr || updatedCount === 0) {
     if (updateErr) {

@@ -26,12 +26,6 @@ export async function POST(req: NextRequest) {
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
-    console.log("[webhook] checkout.session.completed received", {
-      stripe_session_id: session.id,
-      payment_status: session.payment_status,
-      metadata: session.metadata,
-    });
-
     if (session.payment_status !== "paid") {
       return NextResponse.json({ received: true, ignored: "unpaid" });
     }
@@ -102,10 +96,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ received: true, claimed: 0 });
     }
 
-    console.log("[webhook] claimed square(s)", {
-      stripe_session_id: session.id,
-      claimed: data,
-    });
     return NextResponse.json({ received: true, claimed: data.length });
   }
 
