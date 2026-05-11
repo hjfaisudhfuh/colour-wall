@@ -24,3 +24,4 @@ next-env.d.ts
 # claude session state (allow committed slash commands)
 .claude/*
 !.claude/commands/
+!.claude/MARKETING_RULES.md
