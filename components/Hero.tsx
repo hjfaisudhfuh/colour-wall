@@ -13,9 +13,7 @@ export function Hero() {
       </h1>
 
       <p className="mx-auto mt-6 max-w-xl text-base text-zinc-700 sm:text-lg">
-        A public wall anyone can add to. Pick a colour and leave a name,
-        message, link, logo, joke, or tiny ad. Claim nearby squares to build
-        pixel art.
+        A public wall anyone can add to. Pick a colour, leave your mark.
       </p>
 
       <p className="mt-4 font-serif text-base italic text-rose-700/80 sm:text-lg">
