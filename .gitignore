@@ -21,5 +21,6 @@ next-env.d.ts
 # vercel
 .vercel
 
-# claude session state
-.claude/
+# claude session state (allow committed slash commands)
+.claude/*
+!.claude/commands/

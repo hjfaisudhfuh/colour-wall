@@ -170,6 +170,16 @@ No test suite. `npm run typecheck && npm run build` is the verification step.
 
 For the full payment flow locally: `stripe listen --forward-to localhost:3000/api/stripe/webhook` in a second terminal; copy the printed `whsec_…` into `STRIPE_WEBHOOK_SECRET` in `.env.local` and restart `npm run dev`. **Local dev uses test-mode Stripe keys in `.env.local`; production uses live keys in Vercel env vars. Do not cross-pollinate.**
 
+## Project slash commands
+
+Reusable workflow shortcuts live in `.claude/commands/` (see the README in that folder for full reference):
+
+- `/precommit` — runs the verification ritual (git status, 0-diff check on payment routes, env+secret scan, typecheck, build). Use before every commit.
+- `/smoke` — curl-side production smoke test + manual checklist. Use after every deploy.
+- `/audit-conversion` — structured conversion-blocker audit. Use periodically.
+- `/bug-fix <description>` — disciplined bug-fix workflow (reproduce → hypothesise → propose → approve → fix → verify). Use when bugs happen.
+- `/vercel-logs <paste>` — diagnose structured log lines from `/api/checkout`, `/api/checkout/batch`, `/api/stripe/webhook`. Use when something fails in prod.
+
 ## Repo vs brand
 
 The repo is named `dollar-grid` for historical reasons. The public brand is **The Colour Wall**. Do not reintroduce "Dollar Grid" or "The Mood Grid" (a previous, narrower rebrand) in user-facing strings.
