@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { GRID_SIZE } from "./constants";
+import { GRID_SIZE, MAX_BATCH_SIZE } from "./constants";
 
 const HEX_COLOR = /^#[0-9a-fA-F]{6}$/;
 
@@ -77,6 +77,41 @@ export const checkoutBodySchema = z.object({
 });
 
 export type CheckoutBody = z.infer<typeof checkoutBodySchema>;
+
+// ---------- Batch checkout (multi-square) ----------
+
+const coordSchema = z.object({
+  x: z.number().int().min(0).max(GRID_SIZE - 1),
+  y: z.number().int().min(0).max(GRID_SIZE - 1),
+});
+
+export const batchCheckoutBodySchema = z.object({
+  // Caller must dedupe; route also dedupes server-side as defense in depth.
+  coords: z.array(coordSchema).min(1).max(MAX_BATCH_SIZE),
+  color: z.string().regex(HEX_COLOR, "color must be #rrggbb"),
+  message: z
+    .string()
+    .max(100)
+    .transform((s) => s.replace(CONTROL_CHARS, "").trim())
+    .optional()
+    .or(z.literal("")),
+  name: z
+    .string()
+    .max(50)
+    .transform((s) => s.replace(CONTROL_CHARS, "").trim())
+    .optional()
+    .or(z.literal("")),
+  link: z
+    .string()
+    .max(200)
+    .refine((s) => s === "" || isSafeHttpsUrl(s), "link must be an https:// URL")
+    .optional()
+    .or(z.literal("")),
+});
+
+export type BatchCheckoutBody = z.infer<typeof batchCheckoutBodySchema>;
+
+// ---------- helpers ----------
 
 export function isSafeHttpsUrl(input: string): boolean {
   try {

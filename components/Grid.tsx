@@ -8,9 +8,13 @@ import { SquarePopover } from "./SquarePopover";
 import { GridAxisMarkers } from "./GridAxisMarkers";
 import { GridHoverTooltip } from "./GridHoverTooltip";
 import { GridHighlightOverlay } from "./GridHighlightOverlay";
+import { GridSelectionOverlay } from "./GridSelectionOverlay";
 import { JumpToSquare } from "./JumpToSquare";
 import { MonoTag } from "./MonoTag";
 import { WallStats } from "./WallStats";
+import { WallToolbar } from "./WallToolbar";
+import { BatchCartBar } from "./BatchCartBar";
+import { BatchClaimDialog } from "./BatchClaimDialog";
 
 type Props = { initialClaimed: ClaimedSquare[] };
 
@@ -36,21 +40,39 @@ export function Grid({ initialClaimed }: Props) {
     y: number;
   } | null>(null);
 
-  // The hover tooltip listens on this ref. Cells are descendants, so pointer
-  // events bubble — we don't have to attach handlers per cell.
+  // Multi-select state for batch checkout.
+  const [selectMode, setSelectMode] = useState(false);
+  const [selected, setSelected] = useState<Set<string>>(() => new Set());
+  const [batchOpen, setBatchOpen] = useState(false);
+
   const cellGridRef = useRef<HTMLDivElement | null>(null);
   const highlightTimeoutRef = useRef<number | null>(null);
 
   const handleCellClick = useCallback(
     (x: number, y: number) => {
-      const claimed = claimedMap.get(key(x, y));
+      const k = key(x, y);
+      const claimed = claimedMap.get(k);
+
+      // Claimed cells always open the popover, even in select mode —
+      // selection is for empty cells only.
       if (claimed) {
         setOpenPopover(claimed);
         return;
       }
+
+      if (selectMode) {
+        setSelected((prev) => {
+          const next = new Set(prev);
+          if (next.has(k)) next.delete(k);
+          else next.add(k);
+          return next;
+        });
+        return;
+      }
+
       setOpenClaim({ x, y });
     },
-    [claimedMap],
+    [claimedMap, selectMode],
   );
 
   const handleJump = useCallback((x: number, y: number) => {
@@ -68,7 +90,7 @@ export function Grid({ initialClaimed }: Props) {
     }, HIGHLIGHT_DURATION_MS);
   }, []);
 
-  // Clear pending timeout if the component unmounts mid-highlight.
+  // Clear pending highlight timeout on unmount.
   useEffect(() => {
     return () => {
       if (highlightTimeoutRef.current !== null) {
@@ -76,6 +98,29 @@ export function Grid({ initialClaimed }: Props) {
       }
     };
   }, []);
+
+  const handleToggleSelectMode = useCallback(() => {
+    setSelectMode((m) => {
+      // Leaving select mode clears the selection.
+      if (m) setSelected(new Set());
+      return !m;
+    });
+  }, []);
+
+  const handleClearSelection = useCallback(() => {
+    setSelected(new Set());
+  }, []);
+
+  const selectedCoords = useMemo(() => {
+    const out: { x: number; y: number }[] = [];
+    for (const k of selected) {
+      const [xs, ys] = k.split(",");
+      const x = Number.parseInt(xs, 10);
+      const y = Number.parseInt(ys, 10);
+      if (Number.isFinite(x) && Number.isFinite(y)) out.push({ x, y });
+    }
+    return out;
+  }, [selected]);
 
   const cells = useMemo(() => {
     const out: React.ReactNode[] = [];
@@ -112,15 +157,20 @@ export function Grid({ initialClaimed }: Props) {
     <>
       <JumpToSquare onJump={handleJump} />
 
+      <WallToolbar
+        selectMode={selectMode}
+        selectedCount={selected.size}
+        onToggle={handleToggleSelectMode}
+        onClear={handleClearSelection}
+      />
+
       <div className="rounded-3xl bg-white/70 p-3 shadow-[0_30px_80px_-30px_rgba(180,100,140,0.35)] ring-1 ring-rose-200/80 backdrop-blur-sm sm:p-5">
-        {/* Mat header: mono label + status row */}
         <div className="mb-3 flex flex-col items-center gap-2 sm:mb-4">
           <MonoTag>The First Wall</MonoTag>
           <WallStats claimedCount={initialClaimed.length} />
         </div>
         <div className="mb-3 h-px bg-rose-200/60 sm:mb-4" />
 
-        {/* Padding leaves room for axis labels (top + left). */}
         <div className="relative pl-6 pt-4">
           <GridAxisMarkers />
 
@@ -135,6 +185,7 @@ export function Grid({ initialClaimed }: Props) {
             }}
           >
             {cells}
+            <GridSelectionOverlay selected={selected} />
             <GridHighlightOverlay highlightedCell={highlightedCell} />
           </div>
 
@@ -144,6 +195,12 @@ export function Grid({ initialClaimed }: Props) {
           />
         </div>
       </div>
+
+      {/* Sticky cart bar — only shown when at least one cell is selected. */}
+      <BatchCartBar
+        selectedCount={selected.size}
+        onClaim={() => setBatchOpen(true)}
+      />
 
       {openClaim && (
         <ClaimDialog
@@ -158,6 +215,18 @@ export function Grid({ initialClaimed }: Props) {
         <SquarePopover
           square={openPopover}
           onClose={() => setOpenPopover(null)}
+        />
+      )}
+
+      {batchOpen && selectedCoords.length > 0 && (
+        <BatchClaimDialog
+          coords={selectedCoords}
+          onClose={() => setBatchOpen(false)}
+          onClaimError={() => {
+            // 409 from the server (one or more squares no longer available).
+            // We can't know which, so the safest UX is to keep the dialog
+            // open with the error visible and let the user clear/re-pick.
+          }}
         />
       )}
     </>
