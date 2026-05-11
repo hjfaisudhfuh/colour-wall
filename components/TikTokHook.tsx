@@ -1,3 +1,10 @@
+const STEPS = [
+  "Claim a square",
+  "Screenshot it",
+  "Post your coordinate",
+  "Tell someone to claim next to yours",
+];
+
 const EXAMPLES = [
   "67,58 was here.",
   "Claim one next to mine.",
@@ -8,12 +15,22 @@ export function TikTokHook() {
   return (
     <section className="mx-auto my-12 max-w-2xl px-4">
       <div className="rounded-2xl bg-rose-50/80 p-6 text-center ring-1 ring-rose-100 backdrop-blur-sm">
-        <p className="font-serif text-xl text-zinc-800 sm:text-2xl">
-          Coming from TikTok? Claim a square, screenshot it, and post your
-          coordinate.
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-rose-700/80">
+          From TikTok? Try this
         </p>
 
-        <ul className="mt-4 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-sm italic text-zinc-600">
+        <ol className="mx-auto mt-3 flex max-w-md flex-col gap-1 text-left text-sm text-zinc-800 sm:text-base">
+          {STEPS.map((step, i) => (
+            <li key={step} className="flex gap-3">
+              <span className="font-mono text-zinc-400 tabular-nums">
+                {i + 1}.
+              </span>
+              <span>{step}</span>
+            </li>
+          ))}
+        </ol>
+
+        <ul className="mt-5 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-sm italic text-zinc-600">
           {EXAMPLES.map((quote, i) => (
             <li key={quote} className="flex items-center gap-3">
               <span>&ldquo;{quote}&rdquo;</span>

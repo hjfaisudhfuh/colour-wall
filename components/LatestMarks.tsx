@@ -9,7 +9,10 @@ export function LatestMarks({ squares }: Props) {
     return (
       <section className="mx-auto my-16 max-w-3xl px-4 text-center">
         <p className="font-serif text-xl text-zinc-700 sm:text-2xl">
-          Be one of the first people on the wall.
+          The first wall has started.
+        </p>
+        <p className="mt-1 font-serif text-xl text-zinc-700 sm:text-2xl">
+          Be one of the first names on it.
         </p>
       </section>
     );
