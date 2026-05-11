@@ -16,7 +16,14 @@ export function BatchCartBar({ selectedCount, onClaim }: Props) {
   const dollars = ((PRICE_CENTS * selectedCount) / 100).toFixed(2);
 
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-0 z-40 flex justify-center px-4 pb-4 sm:pb-6">
+    <div
+      className="pointer-events-none fixed inset-x-0 bottom-0 z-40 flex justify-center px-4"
+      // Respect iOS home-indicator / Safari URL bar. env(safe-area-inset-bottom)
+      // is 0 on non-iOS so the max() falls back to 1rem there.
+      style={{
+        paddingBottom: "max(1rem, env(safe-area-inset-bottom))",
+      }}
+    >
       <div className="pointer-events-auto flex w-full max-w-md items-center justify-between gap-3 rounded-full bg-zinc-900 px-5 py-3 text-white shadow-2xl ring-1 ring-black/10">
         <div className="flex flex-col leading-tight">
           <span className="font-mono text-[10px] uppercase tracking-wider text-zinc-400">

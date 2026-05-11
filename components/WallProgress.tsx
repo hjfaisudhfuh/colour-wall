@@ -50,7 +50,7 @@ export function WallProgress({ claimedCount }: Props) {
       </div>
 
       <div
-        className="mx-auto mt-2 h-1 max-w-md overflow-hidden rounded-full bg-rose-100"
+        className="relative mx-auto mt-2 h-1 max-w-md overflow-hidden rounded-full bg-rose-100"
         role="progressbar"
         aria-valuenow={Math.round(pct)}
         aria-valuemin={0}
@@ -58,9 +58,20 @@ export function WallProgress({ claimedCount }: Props) {
         aria-label="The Million Wall unlock progress"
       >
         <div
-          className="h-full bg-rose-500 transition-all duration-700"
+          className="absolute inset-y-0 left-0 bg-rose-500 transition-all duration-700"
           style={{ width: `${pct}%` }}
         />
+        {/* Milestone ticks. Visible against the empty rose-100 track at low
+            counts (so the bar reads as 'a journey with markers' instead of
+            empty); covered by the rose-500 fill as the wall fills. */}
+        {[1, 10, 25, 50, 100].map((m) => (
+          <div
+            key={m}
+            aria-hidden
+            className="absolute top-0 h-full w-px bg-rose-300/70"
+            style={{ left: `${m}%` }}
+          />
+        ))}
       </div>
 
       <p className="mt-3 text-xs italic text-zinc-500">

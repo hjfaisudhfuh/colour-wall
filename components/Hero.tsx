@@ -24,7 +24,7 @@ export function Hero() {
 
       <div className="mt-8 flex flex-col items-center gap-3">
         <a
-          href="#wall"
+          href="#wall-mat"
           className="inline-block rounded-full bg-zinc-900 px-7 py-3.5 text-sm font-medium text-white shadow-[0_10px_30px_-10px_rgba(0,0,0,0.4)] transition hover:-translate-y-0.5 hover:bg-zinc-800"
         >
           Pick your square

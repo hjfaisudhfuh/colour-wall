@@ -355,7 +355,10 @@ export function Grid({ initialClaimed }: Props) {
         </p>
       )}
 
-      <div className="rounded-3xl bg-white/70 p-3 shadow-[0_30px_80px_-30px_rgba(180,100,140,0.35)] ring-1 ring-rose-200/80 backdrop-blur-sm sm:p-5">
+      <div
+        id="wall-mat"
+        className="scroll-mt-6 rounded-3xl bg-white/70 p-3 shadow-[0_30px_80px_-30px_rgba(180,100,140,0.35)] ring-1 ring-rose-200/80 backdrop-blur-sm sm:p-5"
+      >
         <div className="mb-3 flex flex-col items-center gap-2 sm:mb-4">
           <MonoTag>The First Wall</MonoTag>
           <WallStats claimedCount={initialClaimed.length} />
