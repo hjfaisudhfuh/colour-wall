@@ -3,6 +3,8 @@
 Reusable workflow shortcuts for The Colour Wall. Invoked in Claude Code as
 `/<command-name>`. Each is a plain markdown prompt that Claude will follow.
 
+Run `/precommit` before committing any change, even docs-only changes.
+
 | Command | When to use |
 |---|---|
 | `/precommit` | Before every commit. Runs the verification ritual: `git status`, 0-diff check on payment routes (`app/api/checkout/route.ts`, `app/api/checkout/batch/route.ts`, `app/api/stripe/webhook/route.ts`), `.env.local` ignore check, secret scan, `npm run typecheck`, `npm run build`. |
