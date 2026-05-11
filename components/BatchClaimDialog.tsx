@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { track } from "@vercel/analytics";
 import { formatCoord } from "@/lib/coords";
 import { PRICE_CENTS } from "@/lib/constants";
 
@@ -101,6 +102,12 @@ export function BatchClaimDialog({ coords, onClose, onClaimError }: Props) {
     }
 
     setSubmitting(true);
+    track("batch_checkout_started", {
+      count: coords.length,
+      has_message: message.length > 0,
+      has_name: name.length > 0,
+      has_link: link.length > 0,
+    });
     try {
       const res = await fetch("/api/checkout/batch", {
         method: "POST",

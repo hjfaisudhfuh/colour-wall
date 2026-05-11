@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { track } from "@vercel/analytics";
 import type { ClaimedSquare } from "@/app/api/squares/route";
 import { GRID_SIZE, MAX_BATCH_SIZE, PRICE_CENTS } from "@/lib/constants";
 import { ClaimDialog } from "./ClaimDialog";
@@ -105,6 +106,9 @@ export function Grid({ initialClaimed }: Props) {
         return;
       }
 
+      // Empty-cell click intent (both modes). Top of the conversion funnel.
+      track("square_clicked_empty");
+
       if (selectMode) {
         setSelected((prev) => {
           const k = key(x, y);
@@ -154,8 +158,13 @@ export function Grid({ initialClaimed }: Props) {
   const handleToggleSelectMode = useCallback(() => {
     setSelectMode((m) => {
       // Leaving select mode clears the selection.
-      if (m) setSelected(new Set());
-      return !m;
+      if (m) {
+        setSelected(new Set());
+        return false;
+      }
+      // Only fire when entering select mode, not when leaving.
+      track("select_mode_entered");
+      return true;
     });
   }, []);
 

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { track } from "@vercel/analytics";
 import { useEffect, useState } from "react";
 
 type Props = {
@@ -28,6 +29,8 @@ export function SuccessActions({ baseUrl, x, y }: Props) {
     `I claimed ${coordPhrase} on The Colour Wall. Claim one next to mine. ${resolvedUrl || ""}`.trim();
   const nativeShareText = `I claimed ${coordPhrase} on The Colour Wall. Claim one next to mine.`;
 
+  const shareType = hasCoord ? "single" : "batch";
+
   async function handleShare() {
     if (typeof navigator !== "undefined" && navigator.share) {
       try {
@@ -36,6 +39,7 @@ export function SuccessActions({ baseUrl, x, y }: Props) {
           text: nativeShareText,
           url: resolvedUrl || undefined,
         });
+        track("share_button_clicked", { method: "native", type: shareType });
         return;
       } catch {
         // user cancelled or unsupported — fall through to clipboard
@@ -45,6 +49,7 @@ export function SuccessActions({ baseUrl, x, y }: Props) {
       await navigator.clipboard.writeText(shareText);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
+      track("share_button_clicked", { method: "clipboard", type: shareType });
     } catch {
       // clipboard blocked — leave button as-is
     }

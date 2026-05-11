@@ -16,8 +16,17 @@ export default function PrivacyPage() {
       </h1>
       <div className="mt-6 space-y-4 text-base leading-relaxed text-zinc-700">
         <p>
-          The Colour Wall doesn&apos;t track you. There are no accounts, no
-          analytics trackers, no third-party tracking pixels.
+          The Colour Wall doesn&apos;t track you individually. There are no
+          accounts, no cookies, no cross-site tracking, no fingerprinting.
+        </p>
+        <p>
+          We use Vercel Web Analytics for aggregate counts — how many people
+          visited a page, how many clicked an empty square, how many
+          completed a claim. Vercel Web Analytics gives us only aggregate,
+          privacy-light analytics. It does not use cookies or give us
+          information that lets us identify individual visitors. We do not
+          send your name, message, link, coordinates, or card details to
+          analytics.
         </p>
         <p>
           Stripe handles all payment processing. We never see your card

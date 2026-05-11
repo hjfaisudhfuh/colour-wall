@@ -1,6 +1,7 @@
 import { SuccessPoll } from "./SuccessPoll";
 import { SuccessActions } from "./SuccessActions";
 import { SuccessSquareCard } from "./SuccessSquareCard";
+import { TrackClaimCompleted } from "./TrackClaimCompleted";
 import { getServiceClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
@@ -108,6 +109,7 @@ export default async function SuccessPage({
 
     return (
       <main className="mx-auto flex max-w-md flex-col px-4 py-20 text-center">
+        <TrackClaimCompleted type="batch" count={squareCount ?? 0} />
         <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-gradient-to-br from-rose-300 via-orange-200 to-violet-300 shadow-lg ring-4 ring-white" />
 
         <h1 className="font-serif text-4xl leading-tight text-zinc-900 sm:text-5xl">
@@ -155,6 +157,9 @@ export default async function SuccessPage({
 
   return (
     <main className="mx-auto flex max-w-md flex-col px-4 py-20 text-center">
+      {x !== null && y !== null && (
+        <TrackClaimCompleted type="single" count={1} />
+      )}
       <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-gradient-to-br from-rose-300 via-orange-200 to-violet-300 shadow-lg ring-4 ring-white" />
 
       <h1 className="font-serif text-4xl leading-tight text-zinc-900 sm:text-5xl">

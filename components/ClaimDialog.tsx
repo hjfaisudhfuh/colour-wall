@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { track } from "@vercel/analytics";
 import { formatCoord } from "@/lib/coords";
 
 type Props = {
@@ -94,6 +95,13 @@ export function ClaimDialog({ x, y, priceCents, onClose }: Props) {
     }
 
     setSubmitting(true);
+    // Funnel: user has validated input and is about to be sent to Stripe.
+    // Send presence-booleans only, never the actual values.
+    track("single_checkout_started", {
+      has_message: message.length > 0,
+      has_name: name.length > 0,
+      has_link: link.length > 0,
+    });
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
