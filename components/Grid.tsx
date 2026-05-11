@@ -13,6 +13,7 @@ import { JumpToSquare } from "./JumpToSquare";
 import { MonoTag } from "./MonoTag";
 import { WallStats } from "./WallStats";
 import { WallToolbar } from "./WallToolbar";
+import { WallProgress } from "./WallProgress";
 import { BatchCartBar } from "./BatchCartBar";
 import { BatchClaimDialog } from "./BatchClaimDialog";
 
@@ -391,6 +392,8 @@ export function Grid({ initialClaimed }: Props) {
           />
         </div>
       </div>
+
+      <WallProgress claimedCount={initialClaimed.length} />
 
       <BatchCartBar
         selectedCount={selected.size}

@@ -15,7 +15,7 @@ export function WallLaunchBanner() {
         <MonoTag>The First Wall Is Live</MonoTag>
       </div>
       <p className="mt-3 text-base text-zinc-700 sm:text-lg">
-        10,000 spaces. $1 each. Be one of the first 100 names on the wall.
+        10,000 spaces. $1 each. When it fills, The Million Wall opens.
       </p>
       <p className="mt-2 text-sm italic text-rose-700/80">
         Start a chain — claim next to a friend.

@@ -85,6 +85,11 @@ export default async function SuccessPage({
         <p className="mt-6 text-xs text-zinc-500">
           Want to start a chain? Tell a friend to claim a square next to yours.
         </p>
+
+        <p className="mt-4 text-xs italic text-zinc-500">
+          You&apos;re part of The First Wall. When it fills, The Million Wall
+          opens.
+        </p>
       </main>
     );
   }
@@ -115,6 +120,11 @@ export default async function SuccessPage({
 
       <p className="mt-6 text-xs text-zinc-500">
         Want to start a chain? Tell a friend to claim a square next to yours.
+      </p>
+
+      <p className="mt-4 text-xs italic text-zinc-500">
+        You&apos;re part of The First Wall. When it fills, The Million Wall
+        opens.
       </p>
     </main>
   );
