@@ -31,19 +31,30 @@
 
 ## main_account_niche
 
-> **Important:** Austin's existing main TikTok account has its own established niche, which must NOT be changed. The Colour Wall can appear there only as an occasional **soft, incidental side-project mention**, not a content pillar.
+**Main account niche:**
+Austin's existing TikTok account is a lyric-video account. The normal content is music/lyrics-focused: short lyric videos, song clips, text-on-screen lyrics, emotional/music-led edits, and visual posts built around tracks.
 
-**Niche definition (Austin to refine):**
-`[NICHE NOT YET DOCUMENTED — Austin to fill in: one-sentence description of the existing main account's actual niche, plus 3–5 typical content pillars.]`
+**Rules for The Colour Wall mentions on the main TikTok:**
+- The Colour Wall must never become the main account's niche.
+- The Colour Wall should only appear as an occasional soft side-project mention.
+- Max 1 soft mention per week.
+- The hook must still be music/lyrics-related, not startup/project-related.
+- The Colour Wall mention must be incidental: background B-roll, tiny caption line, pinned comment, or quick outro.
+- No direct "buy a square" or "claim now" CTA on the main lyric account.
+- No founder/startup/build-in-public content on the main lyric account.
+- No repeated posts about the website.
+- Best fit: lyric-video process content where The Colour Wall appears subtly as something I built, not the reason for the post.
 
-**Rules on the main account (binding for /tiktok-batch):**
-- The Colour Wall is **never** the hook.
-- The Colour Wall is **never** the main content pillar.
-- The Colour Wall is **never** the CTA.
-- The Colour Wall appears at most as: a glance at a screen, one passing line, a B-roll cut, or a single mention in a "what I've been working on" style aside.
-- Max 1–2 soft mentions per week.
-- If a script idea cannot fit the main account's niche cleanly, write it as a normal niche post WITHOUT any Colour Wall mention.
-- No "buy a square" CTA on this account, ever.
+**Acceptable soft mentions:**
+- "Made this lyric edit while checking a side project I launched."
+- A short screen-recording flash of The Colour Wall at the end with no sales CTA.
+- A pinned comment saying "side project is linked in bio" only if the video itself stays lyric-focused.
+
+**Banned main-account content:**
+- "I built a website where you can buy a square."
+- "Claim your square on The Colour Wall."
+- "Day 1 of trying to fill 10,000 squares."
+- Any TikTok where The Colour Wall is the hook, plot, or CTA.
 
 ## colourwall_account_niche
 
