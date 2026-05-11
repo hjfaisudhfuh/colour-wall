@@ -1,7 +1,6 @@
 import { getServiceClient } from "@/lib/supabase/server";
 import { Grid } from "@/components/Grid";
 import { Hero } from "@/components/Hero";
-import { HowItWorks } from "@/components/HowItWorks";
 import { LatestMarks } from "@/components/LatestMarks";
 import { MakeYourMark } from "@/components/MakeYourMark";
 import { WallLaunchBanner } from "@/components/WallLaunchBanner";
@@ -46,7 +45,6 @@ export default async function HomePage() {
 
       <section id="wall" className="scroll-mt-8 px-0 py-4 sm:py-8">
         <WallLaunchBanner />
-        <HowItWorks />
         <Grid initialClaimed={claimed} />
       </section>
 
