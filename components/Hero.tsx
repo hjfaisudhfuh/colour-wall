@@ -18,6 +18,10 @@ export function Hero() {
         pixel art.
       </p>
 
+      <p className="mt-4 font-serif text-base italic text-rose-700/80 sm:text-lg">
+        Like an internet pixel wall, rebuilt for now.
+      </p>
+
       <div className="mt-8 flex flex-col items-center gap-3">
         <a
           href="#wall"

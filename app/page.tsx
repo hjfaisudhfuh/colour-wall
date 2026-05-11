@@ -4,6 +4,7 @@ import { Hero } from "@/components/Hero";
 import { HowItWorks } from "@/components/HowItWorks";
 import { LatestMarks } from "@/components/LatestMarks";
 import { MakeYourMark } from "@/components/MakeYourMark";
+import { WallLaunchBanner } from "@/components/WallLaunchBanner";
 import { WhyOneDollar } from "@/components/WhyOneDollar";
 import { TikTokHook } from "@/components/TikTokHook";
 import { Footer } from "@/components/Footer";
@@ -44,10 +45,7 @@ export default async function HomePage() {
       <Hero />
 
       <section id="wall" className="scroll-mt-8 px-0 py-4 sm:py-8">
-        <p className="mx-auto mb-4 max-w-2xl text-center text-sm text-zinc-700">
-          Claim any empty square for $1. Pick a colour, add a message or
-          link, and become part of the first wall.
-        </p>
+        <WallLaunchBanner />
         <HowItWorks />
         <Grid initialClaimed={claimed} />
       </section>

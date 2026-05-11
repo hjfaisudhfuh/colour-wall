@@ -43,10 +43,10 @@ export default async function SuccessPage({
         Screenshot your square and post it on TikTok.
       </p>
 
-      <SuccessActions baseUrl={baseUrl} />
+      <SuccessActions baseUrl={baseUrl} x={x} y={y} />
 
       <p className="mt-6 text-xs text-zinc-500">
-        Tell a friend to claim a square next to yours.
+        Want to start a chain? Tell a friend to claim a square next to yours.
       </p>
     </main>
   );

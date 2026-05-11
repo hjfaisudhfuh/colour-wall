@@ -3,9 +3,14 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-type Props = { baseUrl: string };
+type Props = {
+  baseUrl: string;
+  /** 0-indexed coords from the success URL params (?x=&y=). Either may be null. */
+  x: number | null;
+  y: number | null;
+};
 
-export function SuccessActions({ baseUrl }: Props) {
+export function SuccessActions({ baseUrl, x, y }: Props) {
   const [copied, setCopied] = useState(false);
   const [resolvedUrl, setResolvedUrl] = useState(baseUrl);
 
@@ -15,14 +20,20 @@ export function SuccessActions({ baseUrl }: Props) {
     }
   }, [resolvedUrl]);
 
-  const shareText = `I claimed a square on The Colour Wall. ${resolvedUrl || ""}`.trim();
+  // Build a coord-aware share text when x/y are known. Falls back to a generic
+  // line so /success without coords still works (e.g. someone bookmarked it).
+  const hasCoord = x !== null && y !== null;
+  const coordPhrase = hasCoord ? `square ${x + 1},${y + 1}` : "a square";
+  const shareText =
+    `I claimed ${coordPhrase} on The Colour Wall. Claim one next to mine. ${resolvedUrl || ""}`.trim();
+  const nativeShareText = `I claimed ${coordPhrase} on The Colour Wall. Claim one next to mine.`;
 
   async function handleShare() {
     if (typeof navigator !== "undefined" && navigator.share) {
       try {
         await navigator.share({
           title: "The Colour Wall",
-          text: "I claimed a square on The Colour Wall.",
+          text: nativeShareText,
           url: resolvedUrl || undefined,
         });
         return;
